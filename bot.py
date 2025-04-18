@@ -6,7 +6,7 @@ import handlers.start
 import handlers.tasks
 import handlers.AddTask
 import handlers.RewriteTask
-import handlers
+import handlers.DeleteTask
 
 
 async def main():
