@@ -13,12 +13,12 @@ class Form_delete(StatesGroup):
     number = State()
 
 
-@router.message(F.text =='DeleteTask')
+@router.message(F.text =='Удалить задачу')
 async def fun_start(message: Message, state: FSMContext):
     cursor.execute('select * from zadacha')
     all = cursor.fetchall()
     await state.set_state((Form_delete.number))
-    await message.answer(text=f'какую задачу вы хотите удалить?{all}',reply_markup=types.ReplyKeyboardRemove())
+    await message.answer(text=f'какую задачу вы хотите удалить?\n{all}',reply_markup=types.ReplyKeyboardRemove())
 
 
 @router.message(Form_delete.number)
@@ -28,5 +28,6 @@ async def get_number(message: Message, state: FSMContext):
     number = state1['number']
     await state.clear()
     cursor.execute(f'delete from zadacha where id = {number}')
+    cursor.execute('update zadacha set id = id-1 where id >= ?', (number))
     con.commit()
     await message.answer('задача удалена')

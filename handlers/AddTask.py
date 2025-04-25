@@ -14,7 +14,7 @@ class Form_add(StatesGroup):
     task = State()
 
 
-@router.message(F.text =='AddTask')
+@router.message(F.text =='Добавить задачу')
 async def fun_start(message: Message, state: FSMContext):
 
     await state.set_state((Form_add.day))
@@ -27,13 +27,13 @@ async def fun_start(message: Message, state: FSMContext):
 async def get_fio(message: Message, state: FSMContext):
     await state.update_data(day=message.text)
     await state.set_state(Form_add.time)
-    await message.answer('а теперь введи время события')
+    await message.answer('теперь введи время события')
 
 @router.message(Form_add.time)
 async def get_age(message: Message, state: FSMContext):
     await state.update_data(time=message.text)
     await state.set_state(Form_add.task)
-    await message.answer('а теперь введи само событие')
+    await message.answer('теперь введи само событие')
 
 
 @router.message(Form_add.task)
