@@ -7,5 +7,5 @@ from loader import router
 async def start(message: Message):
     builder = ReplyKeyboardBuilder()
 
-    await message.answer(text='Добро пожаловать!, чтоб продолжить введи команду /tasks',
+    await message.answer(text='Добро пожаловать!, чтоб продолжить введите команду /tasks',
                          reply_markup=builder.as_markup(resize_keyboard=True))

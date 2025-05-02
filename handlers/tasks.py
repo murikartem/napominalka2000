@@ -10,6 +10,9 @@ async def task_start(message: Message):
     builder = ReplyKeyboardBuilder()
     cursor.execute('select * from zadacha')
     all = cursor.fetchall()
+    text = ''
+    for task in all:
+        text += f'{task[0]}. {task[1]}, {task[2]}, {task[3]}\n'
     for button in kb_start:
         builder.add(button)
-    await message.answer(text=f'вот весь список ваших задач:\n{all}.\nЧего желаете?',reply_markup=builder.as_markup(resize_keyboard=True))
+    await message.answer(text=f'Вот весь список ваших задач:\n\n{text}\nЧего желаете?',reply_markup=builder.as_markup(resize_keyboard=True))

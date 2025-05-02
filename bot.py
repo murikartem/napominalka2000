@@ -7,7 +7,7 @@ import handlers.tasks
 import handlers.AddTask
 import handlers.RewriteTask
 import handlers.DeleteTask
-
+import handlers.commands
 
 async def main():
     await dp.start_polling(bot, allowed_updates=dp.resolve_used_update_types())

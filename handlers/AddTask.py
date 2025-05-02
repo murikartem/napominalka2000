@@ -18,7 +18,7 @@ class Form_add(StatesGroup):
 async def fun_start(message: Message, state: FSMContext):
 
     await state.set_state((Form_add.day))
-    await message.answer(text='введите день для события!',reply_markup=types.ReplyKeyboardRemove())
+    await message.answer(text='Введите день для события!',reply_markup=types.ReplyKeyboardRemove())
 
 
 
@@ -27,13 +27,13 @@ async def fun_start(message: Message, state: FSMContext):
 async def get_fio(message: Message, state: FSMContext):
     await state.update_data(day=message.text)
     await state.set_state(Form_add.time)
-    await message.answer('теперь введи время события')
+    await message.answer('Теперь введите время события')
 
 @router.message(Form_add.time)
 async def get_age(message: Message, state: FSMContext):
     await state.update_data(time=message.text)
     await state.set_state(Form_add.task)
-    await message.answer('теперь введи само событие')
+    await message.answer('Теперь введите само событие')
 
 
 @router.message(Form_add.task)
@@ -46,4 +46,4 @@ async def get_email(message: Message, state: FSMContext):
     await state.clear()
     cursor.execute('insert into zadacha (day, task, time) values (?,?,?)', [day, task, time])
     con.commit()
-    await message.answer('задача сохранена')
+    await message.answer('Задача сохранена, если хотите зделать что-то еще введите команду-/tasks')

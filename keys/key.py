@@ -7,7 +7,7 @@ kb_start = [
 ]
 
 rw_task = [
-    types.KeyboardButton(text='день'),
-    types.KeyboardButton(text='время'),
-    types.KeyboardButton(text='описание'),
+    types.KeyboardButton(text='День'),
+    types.KeyboardButton(text='Время'),
+    types.KeyboardButton(text='Описание'),
 ]
