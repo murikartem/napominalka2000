@@ -8,6 +8,7 @@ from aiogram import types
 from loader import router, con, cursor
 from aiogram import F
 
+
 class Form_add(StatesGroup):
     day = State()
     time = State()
@@ -16,11 +17,8 @@ class Form_add(StatesGroup):
 
 @router.message(F.text =='Добавить задачу')
 async def fun_start(message: Message, state: FSMContext):
-
     await state.set_state((Form_add.day))
     await message.answer(text='Введите день для события!',reply_markup=types.ReplyKeyboardRemove())
-
-
 
 
 @router.message(Form_add.day)
@@ -28,6 +26,7 @@ async def get_fio(message: Message, state: FSMContext):
     await state.update_data(day=message.text)
     await state.set_state(Form_add.time)
     await message.answer('Теперь введите время события')
+
 
 @router.message(Form_add.time)
 async def get_age(message: Message, state: FSMContext):

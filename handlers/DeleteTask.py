@@ -3,6 +3,7 @@ from aiogram.types import Message
 from aiogram.fsm.state import StatesGroup, State
 from aiogram.fsm.context import FSMContext
 from aiogram import types
+from aiogram.utils.keyboard import InlineKeyboardBuilder
 
 
 from loader import router, con, cursor
@@ -14,14 +15,23 @@ class Form_delete(StatesGroup):
 
 
 @router.message(F.text =='Удалить задачу')
-async def fun_start(message: Message, state: FSMContext):
+async def fun_start(message: Message):
     cursor.execute('select * from zadacha')
     all = cursor.fetchall()
     text = ''
+    text2 = []
     for task in all:
-        text += f'{task[0]}. {task[1]}, {task[2]}, {task[3]}\n'
-    await state.set_state((Form_delete.number))
-    await message.answer(text=f'Какую задачу вы хотите удалить?\n\n{text}',reply_markup=types.ReplyKeyboardRemove())
+
+        text2.append(types.InlineKeyboardButton(text=f'{task[0]}. {task[1]}, {task[2]}, {task[3]}', callback_data=f'del_{task[0]}'))
+    builder = InlineKeyboardBuilder()
+
+    for button in text2:
+        builder.add(button)
+        builder.adjust(1)
+
+    await message.answer(text=f'Какую задачу вы хотите удалить?\n\n{text}',reply_markup=builder.as_markup())
+
+
 
 
 @router.message(Form_delete.number)

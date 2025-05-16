@@ -15,6 +15,7 @@ class Form_add(StatesGroup):
     newday = State()
     newtask = State()
 
+
 @router.message(F.text =='Отредоктировать задачу')
 async def fun_start(message: Message, state: FSMContext):
     cursor.execute('select * from zadacha')
@@ -40,6 +41,7 @@ async def get_number(message: Message, state: FSMContext):
         builder.add(button)
     await message.answer(text=f'{data[0][1]}, {data[0][2]}, {data[0][3]}\n\nЧто иммено вы хотите отредоктировать?', reply_markup=builder.as_markup(resize_keyboard=True))
 
+
     #time
     @router.message(F.text == 'Время')
     async def time_rewrite(message: Message):
@@ -47,6 +49,7 @@ async def get_number(message: Message, state: FSMContext):
         data1 = cursor.fetchall()
         await state.set_state((Form_add.newtime))
         await message.answer(text=f'Выберите время которое вы хотите вместо: {data1[0][0]}', reply_markup=types.ReplyKeyboardRemove())
+
 
     @router.message(Form_add.newtime)
     async def get_newtime(message: Message, state: FSMContext):
@@ -57,6 +60,8 @@ async def get_number(message: Message, state: FSMContext):
         con.commit()
         await message.answer('Время изменено, если хотите зделать что-то еще введите команду-/tasks')
         await state.clear()
+
+
     #day
     @router.message(F.text == 'День')
     async def day_rewrite(message: Message):
@@ -65,6 +70,7 @@ async def get_number(message: Message, state: FSMContext):
         await state.set_state((Form_add.newday))
         await message.answer(text=f'Выберите день который вы хотите вместо: {data2[0][0]}',
                              reply_markup=types.ReplyKeyboardRemove())
+
 
     @router.message(Form_add.newday)
     async def get_newday(message: Message, state: FSMContext):
@@ -75,6 +81,8 @@ async def get_number(message: Message, state: FSMContext):
         con.commit()
         await message.answer('День изменён, если хотите зделать что-то еще введите команду-/tasks')
         await state.clear()
+
+
     #task
     @router.message(F.text == 'Описание')
     async def task_rewrite(message: Message):
@@ -83,6 +91,7 @@ async def get_number(message: Message, state: FSMContext):
         await state.set_state((Form_add.newtask))
         await message.answer(text=f'Выберите задачу которую вы хотите вместо: {data3[0][0]}',
                              reply_markup=types.ReplyKeyboardRemove())
+
 
     @router.message(Form_add.newtask)
     async def get_newtask(message: Message, state: FSMContext):
