@@ -12,7 +12,7 @@ async def task_start(message: Message):
     all = cursor.fetchall()
     text = ''
     for task in all:
-        text += f'{task[0]}. {task[1]}, {task[2]}, {task[3]}\n'
+        text += f'{task[1]}, {task[2]}, {task[3]}\n'
     for button in kb_start:
         builder.add(button)
     await message.answer(text=f'Вот весь список ваших задач:\n\n{text}\nЧего желаете?',reply_markup=builder.as_markup(resize_keyboard=True))

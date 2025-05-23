@@ -22,25 +22,21 @@ async def fun_start(message: Message):
     text2 = []
     for task in all:
 
-        text2.append(types.InlineKeyboardButton(text=f'{task[0]}. {task[1]}, {task[2]}, {task[3]}', callback_data=f'del_{task[0]}'))
+        text2.append(types.InlineKeyboardButton(text=f'{task[1]}, {task[2]}, {task[3]}', callback_data=f'bet_{task[0]}'))
     builder = InlineKeyboardBuilder()
 
     for button in text2:
         builder.add(button)
         builder.adjust(1)
 
-    await message.answer(text=f'Какую задачу вы хотите удалить?\n\n{text}',reply_markup=builder.as_markup())
+    await message.answer(text=f'Какую задачу вы хотите удалить?\nчтобы зделать что-то еще введите команду-/tasks\n{text}',reply_markup=builder.as_markup())
 
 
 
 
-@router.message(Form_delete.number)
-async def get_number(message: Message, state: FSMContext):
-    await state.update_data(number=message.text)
-    state1 = await state.get_data()
-    number = state1['number']
-    await state.clear()
-    cursor.execute(f'delete from zadacha where id = {number}')
-    cursor.execute('update zadacha set id = id-1 where id >= ?', (number))
+@router.callback_query(F.data.startswith('bet'))
+async def delete(callback: types.CallbackQuery, bot):
+    bet = int(callback.data.split('_')[1])
+    cursor.execute(f'delete from zadacha where id = {bet}')
     con.commit()
-    await message.answer('Задача удалена, если хотите зделать что-то еще введите команду-/tasks')
+    await callback.answer('Задача удалена')
