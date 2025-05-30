@@ -1,10 +1,4 @@
 from aiogram import types
-from aiogram.filters import Command
-from aiogram.types import Message
-from aiogram.fsm.state import StatesGroup, State
-from aiogram.fsm.context import FSMContext
-from loader import router, con, cursor
-from aiogram import F
 
 
 kb_start = [
